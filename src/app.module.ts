@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { CitiesModule } from './cities/cities.module';
 import { UsersModule } from './users/users.module';
+import { PhotosModule } from './photos/photos.module';
+import { CommentsModule } from './comments/comments.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -24,7 +26,9 @@ import { UsersModule } from './users/users.module';
       })
     }),
     CitiesModule,
-    UsersModule
+    UsersModule,
+    PhotosModule,
+    CommentsModule
   ],
   controllers: [AppController],
   providers: [AppService],

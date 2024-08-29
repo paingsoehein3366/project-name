@@ -24,11 +24,11 @@ export class CitiesController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCityDto: UpdateCityDto) {
-    return this.citiesService.update(+id, updateCityDto);
+    return this.citiesService.update(parseInt(id), updateCityDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.citiesService.remove(+id);
+    return this.citiesService.remove(parseInt(id));
   }
 }

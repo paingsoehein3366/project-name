@@ -30,6 +30,8 @@ export class CitiesService {
 
   async update(id: number, attrs: Partial<City>) {
     const City = await this.findOne(id);
+    console.log('city:', City, attrs);
+
     if (!City) {
       throw new NotFoundException(`City is not found`);
     }
