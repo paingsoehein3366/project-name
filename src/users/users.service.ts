@@ -1,7 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -14,13 +12,10 @@ export class UsersService {
   async create(createUserDto) {
     const { username, email, password, city_id } = createUserDto;
     const user = await this.userRepository.findOne({ where: { email } });
-    if (!username || !email || !password || !city_id) {
-      throw new BadRequestException('Missing required fields');
-    }
+
     if (user) {
       throw new BadRequestException('Email already in use');
     }
-    console.log('createUserDto', createUserDto);
 
     const newUser = this.userRepository.create({
       username,
@@ -32,9 +27,14 @@ export class UsersService {
   }
 
   async findAll(query) {
-    const { city_id } = query;
+    const { city_id, limit, skip } = query;
 
-    const [data, count] = await this.userRepository.findAndCount(city_id);
+    const [data, count] = await this.userRepository.findAndCount({
+      take: limit,
+      skip: skip,
+      where: { city_id },
+      relations: ['comments', 'city', 'photos'],
+    });
 
     return { data, count };
   }

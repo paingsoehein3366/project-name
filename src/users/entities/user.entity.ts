@@ -1,6 +1,7 @@
 import { City } from "src/cities/entities/city.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Comment } from "src/comments/entities/comment.entity";
+import { Photo } from "src/photos/entities/photo.entity";
 
 @Entity({ name: 'users' })
 export class User {
@@ -10,7 +11,7 @@ export class User {
   @Column()
   username: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
@@ -20,7 +21,7 @@ export class User {
   city_id: number;
 
   @ManyToOne(() => City)
-  @JoinColumn({ name: "city_id" })
+  @JoinColumn({ name: "city_id", referencedColumnName: "id" })
   city: City;
 
   @CreateDateColumn({ name: 'created_at' })
@@ -31,4 +32,7 @@ export class User {
 
   @OneToMany(() => Comment, (comment) => comment.user)
   comments: Comment[];
+
+  @OneToMany(() => Photo, (photo) => photo.user)
+  photos: Photo[];
 }
