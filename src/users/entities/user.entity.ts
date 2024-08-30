@@ -1,5 +1,6 @@
 import { City } from "src/cities/entities/city.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Comment } from "src/comments/entities/comment.entity";
 
 @Entity({ name: 'users' })
 export class User {
@@ -27,4 +28,7 @@ export class User {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
 }

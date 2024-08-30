@@ -23,6 +23,7 @@ import { CommentsModule } from './comments/comments.module';
         database: configService.get('DB_DATABASE'),
         entities: [join(process.cwd(), 'dist/**/*.entity{.js,.ts}')],
         synchronize: true,
+        logging: true,
       })
     }),
     CitiesModule,

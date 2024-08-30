@@ -11,14 +11,17 @@ export class UsersService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) { }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto) {
     const { username, email, password, city_id } = createUserDto;
     const user = await this.userRepository.findOne({ where: { email } });
-    console.log('city_id:', city_id);
-
+    if (!username || !email || !password || !city_id) {
+      throw new BadRequestException('Missing required fields');
+    }
     if (user) {
       throw new BadRequestException('Email already in use');
     }
+    console.log('createUserDto', createUserDto);
+
     const newUser = this.userRepository.create({
       username,
       email,
@@ -32,7 +35,6 @@ export class UsersService {
     const { city_id } = query;
 
     const [data, count] = await this.userRepository.findAndCount(city_id);
-    console.log('data:', data);
 
     return { data, count };
   }
