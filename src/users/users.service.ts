@@ -33,14 +33,17 @@ export class UsersService {
       take: limit,
       skip: skip,
       where: { city_id },
-      relations: ['comments', 'city', 'photos'],
+      relations: ['city', 'photos'],
     });
 
     return { data, count };
   }
 
   findOne(id: number) {
-    return this.userRepository.findOne({ where: { id } });
+    return this.userRepository.findOne({
+      where: { id },
+      relations: ['city', 'photos'],
+    });
   }
 
   async update(id: number, attrs: Partial<User>) {

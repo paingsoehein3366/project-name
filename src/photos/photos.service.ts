@@ -30,6 +30,7 @@ export class PhotosService {
       take: limit,
       skip: skip,
       where,
+      // relations: ['comments']
     });
     return { data, count };
   }
